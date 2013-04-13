@@ -1,4 +1,4 @@
-import numbthy as thy
+import numbthy
 
 class Point:
     x = long(0)
@@ -28,7 +28,7 @@ class ellipticCurve:
     def __repr__(self):
         return "y^2 = x^3 + "+str(self.a)+"x + "+str(self.b)+" mod("+str(self.n)+")"
 
-#this is potentially (probably) wrong
+#tested and I think this works
 def addTwoPoints(E,p1,p2):
     if(p1 == zero):
         return p2
@@ -41,16 +41,14 @@ def addTwoPoints(E,p1,p2):
         if(p1 == p2):
             num = (3*p1.x*p1.x + E.a) % E.n
             den = (2*p1.y) % E.n
-            slope = num * thy.invmod(den,E.n)
+            slope = num * numbthy.invmod(den,E.n)
         else:
             num = (p2.y-p1.y) % E.n
             den = (p2.x-p1.x) % E.n
-            slope = num * thy.invmod(den,E.n)
+            slope = num * numbthy.invmod(den,E.n)
         x3 = (slope*slope-p1.x-p2.x) % E.n
         y3 = (slope*(p1.x-x3)-p1.y) % E.n
         return Point(long(x3),long(y3))
 
 print addTwoPoints(ellipticCurve(3,8,13),Point(9,7),Point(1,8))
 print addTwoPoints(ellipticCurve(3,8,13),Point(9,7),Point(9,7))
-
-
