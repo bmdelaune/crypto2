@@ -9,9 +9,10 @@ from scipy.sparse.linalg import spsolve
 from numpy.linalg import solve, norm"""
 import scipy
 from scipy import linalg, matrix
+import numbthy
 
 
-n = 17196283094983 #36443380917683970574932716576131
+n = 87463#17196283094983 #36443380917683970574932716576131
 np = 917641 #3976418276500331
 nq = 18739663 #9164876123081801
 B = []
@@ -87,11 +88,11 @@ if __name__ == '__main__':#
         #proc = Process(target=legendreManager,args=(n,p))
         #proc.start()
         legendreManager(n,p)
-    M=Blength
     root_n = int(m.floor(m.sqrt(n)))
     print root_n
     XY = []
     sparse = []
+    M=Blength
     for x in xrange(root_n-M,root_n+M):
         #print x
         y = (x)**2 % n
@@ -101,10 +102,24 @@ if __name__ == '__main__':#
             sparse.append(ysmooth)
             print x,y,ysmooth[0]
     sparse = numpy.matrix(sparse)
-    nulls = null(sparse)
+    nulls = null(scipy.transpose(sparse))
     nulls = numpy.hsplit(nulls,nulls.shape[1])
-    print sparse * nulls[0]
-    print "Basically a zero vector, right?"
+    xt = 1
+    yt = 1
+    print "XY length:",len(XY)
+    print "sparse size:",sparse.shape
+    print "nulls size:",len(nulls)
+    for j in range(0,len(nulls)):
+        for i in range(0,nulls[j].size-1):
+            if(nulls[j][i] <> 0):
+                #print i," ",XY[i][0]," ",XY[i][1]
+                xt = xt * XY[i][0]
+                yt = yt * XY[i][1]
+        xt = xt % n
+        yt = yt % n
+        
+        print "gcd(",xt,"-",yt,",",n,") = ",numbthy.gcd((xt-yt),n)
+    #print nulls[1]
     
     
         
