@@ -1,0 +1,24 @@
+#PBS -l nodes=2:ppn=12,walltime=01:00:00,mem=8gb
+#PBS -N thirtydigit
+#PBS -S /bin/bash
+#PBS -j oe
+#PBS -m e
+#PBS -M bmdelaune@gmail.com
+#
+## Some job PRE-processing may go here
+mkdir $SCRATCH/some/dir
+cd $SCRATCH/some/dir
+module load python
+
+# Initialize the Intel compilers and OpenMPI to use for this job
+#module load intel/compilers
+#module load openmpi
+
+# $PBS_O_WORKDIR is the directory from which the job was submitted
+cp $PBS_O_WORKDIR/files.* .
+
+## Issue the MPI command
+time python qs.py > output.txt
+
+## Some job POST-processing may go here
+cp ./files.*  $PBS_O_WORKDIR
