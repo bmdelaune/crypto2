@@ -101,6 +101,11 @@ if __name__ == '__main__':#
             sparse.append(ysmooth)
             print x,y,ysmooth[0]
     sparse = numpy.matrix(sparse)
+    nulls = null(sparse)
+    nulls = numpy.hsplit(nulls,nulls.shape[1])
+    print sparse * nulls[0]
+    print "Basically a zero vector, right?"
+    
     
         
         
